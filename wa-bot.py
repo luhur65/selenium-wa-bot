@@ -47,13 +47,12 @@ def repeat_message(driver, message, spamMessage):
             message = input("Enter message: ")
             spamMessage = input("Enter numbers to spam message: ")
             spam_message(driver, message, spamMessage)
-
-            # ask to repeat the message, and ask to change the target or not
-            repeat_message(driver, message, spamMessage)
         else:
             spam_message(driver, message, spamMessage)
     
     print("Program finished\n")
+    # ask to repeat the message, and ask to change the target or not
+    repeat_message(driver, message, spamMessage)
 
 # main
 def main():
