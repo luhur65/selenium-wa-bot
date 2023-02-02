@@ -1,5 +1,5 @@
-* Wa Bot
-* A simple bot for WhatsApp
+# Wa Bot
+## A simple bot for WhatsApp
 
 This is a simple bot for WhatsApp, it is written in Python and uses Selenium to control the browser.  
 This bot is not intended to be used for spamming or other illegal activities, it is only intended to be used for educational purposes.  
