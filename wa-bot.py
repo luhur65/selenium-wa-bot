@@ -1,3 +1,4 @@
+from math import fabs
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -36,8 +37,6 @@ def spam_message(driver, message, spamMessage):
 def repeat_message(driver, message, spamMessage):
     repeat = input("Do you want to repeat the message? (y/n): ")
     if repeat == "y":
-        spam_message(driver, message, spamMessage)
-    else:
         # CHANGE THE TARGET
         change_target = input("Do you want to change the target? (y/n): ")
         if change_target == "y":
@@ -48,16 +47,26 @@ def repeat_message(driver, message, spamMessage):
             spamMessage = input("Enter numbers to spam message: ")
             spam_message(driver, message, spamMessage)
         else:
-            spam_message(driver, message, spamMessage)
-    
-    print("Program finished\n")
+            # ask to change the message
+            change_message = input("Do you want to change the message? (y/n): ")
+            if change_message == "y":
+                # change the message
+                message = input("Enter message: ")
+                spamMessage = input("Enter numbers to spam message: ")
+                spam_message(driver, message, spamMessage)
+            else:
+                spam_message(driver, message, spamMessage)
+    else:
+        print("Program finished\n")
+        return False
+
     # ask to repeat the message, and ask to change the target or not
     repeat_message(driver, message, spamMessage)
 
 # main
 def main():
     # open web driver
-    driver = webdriver.Chrome(chrome_options)
+    driver = webdriver.Chrome(options=chrome_options)
     driver.get("https://web.whatsapp.com/")
 
     # wait for user to scan qr code
