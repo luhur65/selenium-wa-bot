@@ -1,12 +1,23 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options as ChromeOptions
 
-# target 
-def get_target(driver, target):
+# options
+Path = "G:\\chromedriver\\chromedriver.exe"
+chrome_options = ChromeOptions()
+chrome_options.add_experimental_option("detach", True) # to keep the chrome open
+
+# search target
+def search_target(driver, target):
     driver.implicitly_wait(1)
-    chat = driver.find_element(By.XPATH, f'//span[@title="{target}"]')
-    chat.click()
+    search_box = driver.find_element(
+        By.XPATH, '//div[@class="Er7QU copyable-text selectable-text"]')
+    search_box.send_keys(target + Keys.ENTER)
+
+    # get target
+    driver.implicitly_wait(1)
+    driver.find_element(By.XPATH, '//span[@class="matched-text _11JPr"]').click()
 
 # send message
 def send_message(driver, message):
@@ -27,11 +38,18 @@ def repeat_message(driver, message, spamMessage):
     if repeat == "y":
         spam_message(driver, message, spamMessage)
     else:
+        # CHANGE THE TARGET
         change_target = input("Do you want to change the target? (y/n): ")
         if change_target == "y":
             target = input("Enter target name: ")
-            get_target(driver, target)
+            search_target(driver, target)
+            # CHANGE THE MESSAGE
+            message = input("Enter message: ")
+            spamMessage = input("Enter numbers to spam message: ")
             spam_message(driver, message, spamMessage)
+
+            # ask to repeat the message, and ask to change the target or not
+            repeat_message(driver, message, spamMessage)
         else:
             spam_message(driver, message, spamMessage)
     
@@ -40,7 +58,7 @@ def repeat_message(driver, message, spamMessage):
 # main
 def main():
     # open web driver
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(chrome_options)
     driver.get("https://web.whatsapp.com/")
 
     # wait for user to scan qr code
@@ -48,7 +66,7 @@ def main():
 
     # get target
     target = input("Enter target name: ")
-    get_target(driver, target)
+    search_target(driver, target)
 
     # get message
     message = input("Enter message: ")
@@ -71,3 +89,4 @@ if __name__ == "__main__":
         main()
     except Exception as e:
         print("There is an error, please run the program again\n")
+        print(e)
