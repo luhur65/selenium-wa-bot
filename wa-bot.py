@@ -1,13 +1,18 @@
-from math import fabs
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 
 # options
-Path = "G:\\chromedriver\\chromedriver.exe"
+# Path = "G:\chromedriver\chromedriver.exe"
 chrome_options = ChromeOptions()
 chrome_options.add_experimental_option("detach", True) # to keep the chrome open
+chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"]) # to hide the warning
+
+# open chromedriver v.109 and go to whatsapp web page
+# executable_path can be passed as an argument to the webdriver.Chrome() function
+driver = webdriver.Chrome(options=chrome_options)
+driver.get("https://web.whatsapp.com/")
 
 # search target
 def search_target(driver, target):
@@ -68,22 +73,19 @@ def repeat_message(driver, message, spamMessage):
         return False
 
     # ask to repeat the message, and ask to change the target or not
-    run_again()
+    run_again(driver)
 
 # run the program again
-def run_again():
+def run_again(driver):
     run = input("Do you want to run the program again? (y/n): ")
     if run == "y":
         main()
     else:
         print("Program finished\n")
-        return False
+        driver.quit()
 
 # main
-def main():
-    # open web driver
-    driver = webdriver.Chrome(options=chrome_options)
-    driver.get("https://web.whatsapp.com/")
+def main(driver):
 
     # wait for user to scan qr code
     input("Press any key after scanning qr code\n")
@@ -95,16 +97,13 @@ def main():
     # send message
     send_message(driver)
 
-    # close driver
-    driver.close()
-
 
 # run the program
 if __name__ == "__main__":
     try:
-        main()
+        main(driver)
     except Exception as e:
         print("There is an error, please run the program again\n")
         print(e) # to show the error when debugging
         # ask to run the program again
-        run_again()
+        run_again(driver)
