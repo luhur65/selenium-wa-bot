@@ -23,7 +23,8 @@ def search_target(driver, target):
 # send message
 def send_message(driver, message):
     driver.implicitly_wait(1)
-    message_box = driver.find_element(By.XPATH, '//div[@class="fd365im1 to2l77zo bbv8nyr4 mwp4sxku gfz4du6o ag5g9lrv bze30y65 bdf91cm1"]')
+    # message_box = driver.find_element(By.XPATH, '//div[@class="fd365im1 to2l77zo bbv8nyr4 mwp4sxku gfz4du6o ag5g9lrv bze30y65 bdf91cm1"]')
+    message_box = driver.find_element(By.XPATH, '//div[@title="Ketik pesan"]')
     message_box.send_keys(message)
     message_box.send_keys(Keys.ENTER)
 
@@ -97,4 +98,4 @@ if __name__ == "__main__":
         main()
     except Exception as e:
         print("There is an error, please run the program again\n")
-        print(e)
+        print(e) # to show the error when debugging
