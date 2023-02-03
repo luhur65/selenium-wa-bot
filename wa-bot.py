@@ -20,8 +20,8 @@ def search_target(driver, target):
     driver.implicitly_wait(1)
     driver.find_element(By.XPATH, '//span[@class="matched-text _11JPr"]').click()
 
-# send message
-def send_message(driver, message):
+# set what to send
+def chat(driver, message):
     driver.implicitly_wait(1)
     # message_box = driver.find_element(By.XPATH, '//div[@class="fd365im1 to2l77zo bbv8nyr4 mwp4sxku gfz4du6o ag5g9lrv bze30y65 bdf91cm1"]')
     message_box = driver.find_element(By.XPATH, '//div[@title="Ketik pesan"]')
@@ -32,7 +32,17 @@ def send_message(driver, message):
 def spam_message(driver, message, spamMessage):
     for i in range(int(spamMessage)):
         driver.implicitly_wait(1)
-        send_message(driver, message)
+        chat(driver, message)
+
+# do send message 
+def send_message(driver):
+    message = input("Enter message: ")
+    spamMessage = input("Enter numbers to spam message: ")
+    spam_message(driver, message, spamMessage)
+    # program finished
+    print("Program finished\n")
+    # ask to repeat the message, and ask to change the target or not
+    repeat_message(driver, message, spamMessage)
 
 # ask to repeat the message, and ask to change the target or not
 def repeat_message(driver, message, spamMessage):
@@ -44,17 +54,13 @@ def repeat_message(driver, message, spamMessage):
             target = input("Enter target name: ")
             search_target(driver, target)
             # CHANGE THE MESSAGE
-            message = input("Enter message: ")
-            spamMessage = input("Enter numbers to spam message: ")
-            spam_message(driver, message, spamMessage)
+            send_message(driver)
         else:
             # ask to change the message
             change_message = input("Do you want to change the message? (y/n): ")
             if change_message == "y":
                 # change the message
-                message = input("Enter message: ")
-                spamMessage = input("Enter numbers to spam message: ")
-                spam_message(driver, message, spamMessage)
+                send_message(driver)
             else:
                 spam_message(driver, message, spamMessage)
     else:
@@ -62,7 +68,16 @@ def repeat_message(driver, message, spamMessage):
         return False
 
     # ask to repeat the message, and ask to change the target or not
-    repeat_message(driver, message, spamMessage)
+    run_again()
+
+# run the program again
+def run_again():
+    run = input("Do you want to run the program again? (y/n): ")
+    if run == "y":
+        main()
+    else:
+        print("Program finished\n")
+        return False
 
 # main
 def main():
@@ -77,25 +92,19 @@ def main():
     target = input("Enter target name: ")
     search_target(driver, target)
 
-    # get message
-    message = input("Enter message: ")
-    spamMessage = input("Enter numbers to spam message: ")
-
     # send message
-    spam_message(driver, message, spamMessage)
-
-    # close driver
-    print("Program finished\n")
-
-    # ask to repeat the message, and ask to change the target or not
-    repeat_message(driver, message, spamMessage)
+    send_message(driver)
 
     # close driver
     driver.close()
 
+
+# run the program
 if __name__ == "__main__":
     try:
         main()
     except Exception as e:
         print("There is an error, please run the program again\n")
         print(e) # to show the error when debugging
+        # ask to run the program again
+        run_again()
