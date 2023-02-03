@@ -79,10 +79,10 @@ def repeat_message(driver, message, spamMessage):
 def run_again(driver):
     run = input("Do you want to run the program again? (y/n): ")
     if run == "y":
-        main()
+        main(driver)
     else:
         print("Program finished\n")
-        driver.quit()
+        driver.close()
 
 # main
 def main(driver):
