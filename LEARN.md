@@ -1,0 +1,1 @@
+# Used selenium to automate the process of sending messages to my friends on whatsapp, Used python to write the code and 
